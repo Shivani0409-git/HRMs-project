@@ -1,0 +1,150 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HRMS - Leave History</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+  />
+</head>
+<body class="bg-white font-sans">
+  <div class="flex min-h-screen">
+    <!-- Sidebar -->
+    <aside class="bg-[#244466] w-48 flex flex-col text-white">
+      <div class="text-xl font-semibold px-6 py-6 border-b border-[#1f3a56]">
+        HRMS
+      </div>
+      <nav class="flex flex-col space-y-2 px-4 py-6 text-sm">
+        <a href="index.html" class="flex items-center space-x-3 px-3 py-2 hover:bg-[#3e5a75] rounded">
+          <i class="fas fa-home"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="applyLeave.html" class="flex items-center space-x-3 px-3 py-2 hover:bg-[#3e5a75] rounded">
+          <i class="fas fa-file-alt"></i>
+          <span>Apply Leave</span>
+        </a>
+        <a href="approval.html" class="flex items-center space-x-3 px-3 py-2 hover:bg-[#3e5a75] rounded">
+          <i class="fas fa-check-circle"></i>
+          <span>Manager Approval</span>
+        </a>
+        <a href="leaveHistory.html" class="flex items-center space-x-3 bg-[#3e5a75] rounded px-3 py-2">
+          <i class="fas fa-clock"></i>
+          <span>Leave History</span>
+        </a>
+        <a href="login.html" class="flex items-center space-x-3 px-3 py-2 hover:bg-[#3e5a75] rounded mt-auto">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>Logout</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main content -->
+    <main class="flex-1 p-6 bg-[#f3f7fb]">
+      <h1 class="text-lg font-normal mb-6">Leave History</h1>
+
+      <section class="bg-white rounded-lg shadow-md p-6 max-w-4xl mx-auto">
+        <div class="overflow-x-auto">
+          <table id="historyTable" class="w-full text-sm rounded-lg border border-gray-300 shadow-sm">
+            <thead class="bg-white border-b border-gray-300">
+              <tr>
+                <th class="text-left font-semibold px-4 py-3 border-r border-gray-300">Leave Date</th>
+                <th class="text-left font-semibold px-4 py-3 border-r border-gray-300">Leave Type</th>
+                <th class="text-left font-semibold px-4 py-3 border-r border-gray-300">Duration</th>
+                <th class="text-left font-semibold px-4 py-3">Status</th>
+              </tr>
+            </thead>
+            <tbody id="historyBody" class="bg-white">
+              <!-- Leave history rows inserted dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // Utility to get leaves from localStorage or sample data
+    function getLeaves() {
+      const leaves = localStorage.getItem('leaves');
+      if (leaves) {
+        return JSON.parse(leaves);
+      } else {
+        // Sample data
+        const sampleLeaves = [
+          {
+            employeeName: "John Doe",
+            leaveType: "Casual",
+            fromDate: "2025-06-01",
+            toDate: "2025-06-05",
+            reason: "Family function",
+            status: "Approved"
+          },
+          {
+            employeeName: "Jane Smith",
+            leaveType: "Medical",
+            fromDate: "2025-06-10",
+            toDate: "2025-06-12",
+            reason: "Medical treatment",
+            status: "Pending"
+          },
+          {
+            employeeName: "Alice Johnson",
+            leaveType: "Sick",
+            fromDate: "2025-07-01",
+            toDate: "2025-07-01",
+            reason: "Flu",
+            status: "Rejected"
+          }
+        ];
+        localStorage.setItem('leaves', JSON.stringify(sampleLeaves));
+        return sampleLeaves;
+      }
+    }
+
+    // Calculate duration in days (inclusive)
+    function calculateDuration(from, to) {
+      const fromDate = new Date(from);
+      const toDate = new Date(to);
+      const diffTime = toDate - fromDate;
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
+      return diffDays === 1 ? "1 Day" : `${diffDays} Days`;
+    }
+
+    // Render leave history table rows with hover effect
+    function renderLeaveHistory() {
+      const leaves = getLeaves();
+      const tbody = document.getElementById('historyBody');
+      tbody.innerHTML = '';
+
+      leaves.forEach((leave, index) => {
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-gray-100 cursor-pointer";
+
+        // Format leave date as fromDate (could be start date)
+        const leaveDate = leave.fromDate;
+
+        // Calculate duration
+        const duration = calculateDuration(leave.fromDate, leave.toDate);
+
+        // Status color
+        let statusColor = 'text-gray-700 font-semibold';
+        if (leave.status === 'Approved') statusColor = 'text-green-600 font-semibold';
+        else if (leave.status === 'Rejected') statusColor = 'text-red-600 font-semibold';
+        else if (leave.status === 'Pending') statusColor = 'text-yellow-600 font-semibold';
+
+        tr.innerHTML = `
+          <td class="px-4 py-3 border-r border-gray-300">${leaveDate}</td>
+          <td class="px-4 py-3 border-r border-gray-300">${leave.leaveType}</td>
+          <td class="px-4 py-3 border-r border-gray-300">${duration}</td>
+          <td class="px-4 py-3"><span class="${statusColor}">${leave.status}</span></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    renderLeaveHistory();
+  </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HRMS - Manager Approval</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+  />
+</head>
+<body class="bg-white font-sans">
+  <div class="flex min-h-screen">
+    <!-- Sidebar -->
+    <aside class="bg-[#244466] w-48 flex flex-col text-white">
+      <div class="text-xl font-semibold px-6 py-6 border-b border-[#1f3a56]" id="ss">
+        HRMS
+      </div>
+      <nav class="flex flex-col space-y-2 px-4 py-6 text-sm">
+        <a href="index.html" class="flex items-center space-x-3 px-3 py-2 hover:bg-[#3e5a75] rounded">
+          <i class="fas fa-home"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="applyLeave.html" class="flex items-center space-x-3 px-3 py-2 hover:bg-[#3e5a75] rounded">
+          <i class="fas fa-file-alt"></i>
+          <span>Apply Leave</span>
+        </a>
+        <a href="approval.html" class="flex items-center space-x-3 bg-[#3e5a75] rounded px-3 py-2">
+          <i class="fas fa-check-circle"></i>
+          <span>Manager Approval</span>
+        </a>
+        <a href="leaveHistory.html" class="flex items-center space-x-3 px-3 py-2 hover:bg-[#3e5a75] rounded">
+          <i class="fas fa-clock"></i>
+          <span>Leave History</span>
+        </a>
+        <a href="login.html" class="flex items-center space-x-3 px-3 py-2 hover:bg-[#3e5a75] rounded mt-auto">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>Logout</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main content -->
+    <main class="flex-1 p-6">
+      <h1 class="text-lg font-normal mb-6">Manager Approval</h1>
+
+      <section>
+        <h2 class="text-base font-semibold mb-3">Leave Requests</h2>
+        <div class="overflow-x-auto">
+          <table id="approvalTable" class="w-full border border-gray-200 text-sm">
+            <thead class="bg-white border-b border-gray-200">
+              <tr>
+                <th class="text-left font-semibold px-3 py-2 border-r border-gray-200">Employee</th>
+                <th class="text-left font-semibold px-3 py-2 border-r border-gray-200">Leave Type</th>
+                <th class="text-left font-semibold px-3 py-2 border-r border-gray-200">From</th>
+                <th class="text-left font-semibold px-3 py-2 border-r border-gray-200">To</th>
+                <th class="text-left font-semibold px-3 py-2 border-r border-gray-200">Reason</th>
+                <th class="text-left font-semibold px-3 py-2 border-r border-gray-200">Status</th>
+                <th class="text-center font-semibold px-3 py-2">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="approvalBody">
+              <!-- Leave requests will be dynamically inserted here -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="manager.js"></script>
+   
+</body>
+</html>
