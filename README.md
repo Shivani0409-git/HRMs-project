@@ -58,7 +58,5 @@ Project HRM/
 - Shivani Panchal 
 
 
-##  License
 
-This project is for educational purposes and does not include any license for commercial use.
 
